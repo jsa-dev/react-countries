@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import {addCountry, selectCountry} from '../actions';
 
 class CountriesList extends React.Component{
-    // so users can't add the same country several times
     beforeAdd = (country) => {
         if (!this.props.selection.includes(country)){
             this.props.addCountry(country);
@@ -11,15 +10,15 @@ class CountriesList extends React.Component{
     }
 
     renderList(){
-        if (this.props.countryList.length==0){
+        if (this.props.countryList.length===0){
             return(
                 <div className="ui vertical menu">
                     <a className="item">Please select a region first.</a>
                 </div>
             );
         }
-        if(this.props.searchCountryList.length!=0){
-            // Prioritize search results over listing countries from region
+        // Prioritize search results over listing countries from region
+        if(this.props.searchCountryList.length!==0){
             return this.props.searchCountryList.map((country)=>{
                 return (
                     <div>
@@ -28,7 +27,8 @@ class CountriesList extends React.Component{
                     </div>
                 )
             })
-        } 
+        }
+        // Lists countries from selected region
         return this.props.countryList.map((country)=>{
             return (
                 <div>

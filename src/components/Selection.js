@@ -4,7 +4,7 @@ import {removeCountry, selectCountry} from '../actions';
 
 class Selection extends React.Component {
     selectList() {
-        if(this.props.selection.length==0){
+        if(this.props.selection.length===0){
             return <div>No countries selected yet.</div>;
         } else {
         return this.props.selection.map((country)=>{

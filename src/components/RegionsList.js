@@ -5,7 +5,7 @@ import {setRegion, setCountryList, updateCountryList} from '../actions';
 
 class RegionsList extends React.Component{
     onRegionSelect = async (region) => {
-        if (this.props.region!=region){
+        if (this.props.region!==region){
             const response = await restcountries.get(`/region/${region}`);
             this.props.setRegion(region);
             this.props.setCountryList(response.data);

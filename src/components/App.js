@@ -8,28 +8,42 @@ import {connect} from 'react-redux';
 
 class App extends React.Component {
     render(){
+        console.log('app was rendered');
         return (
             <div className="my-container" style={ {margin: "10px 10px 10px 10px"} }>
                 <div className="ui grid">
                     <div className="ui row">
+                        {/* regions */}
                         <div className="three wide column">
                             <h3>Regions</h3>
                             <RegionsList />
-                            <Search searchSelected={false} />
+                            {/* search in region */}
+                            { this.props.region!=='select region to search' && <Search searchSelected={false} /> }
                         </div>
-                        <div className="four wide column">
-                            <h3>Countries</h3>
-                            <CountriesList />
-                        </div>
-                        <div className="five wide column">
-                            <h3>Country Data</h3>
-                            <Country selectedCountry={this.props.country} />
-                        </div>
-
+                        {/* country list */}
+                        {this.props.region!=='select region to search' && 
+                            (
+                                <div className="four wide column">
+                                    <h3>Countries</h3>
+                                    <CountriesList />
+                                </div>
+                            ) 
+                        }
+                        {/* country data */}
+                        {this.props.country!=null &&
+                            (
+                                <div className="five wide column">
+                                    <h3>Country Data</h3>
+                                    <Country selectedCountry={this.props.country} />
+                                </div>
+                            )
+                        }
+                        {/* selected countries */}
                         <div className="four wide column">
                             <h3>Selection of countries</h3>
                             <Selection />
-                            <Search searchSelected={true} />
+                            {/* search in selected */}
+                            { this.props.selection.length!==0 && <Search searchSelected={true} /> }
                         </div>
                     </div>
                 </div>
@@ -40,7 +54,9 @@ class App extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        country: state.country
+        country: state.country,
+        region: state.region,
+        selection: state.selection
     };
 }
 

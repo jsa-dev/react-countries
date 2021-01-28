@@ -8,7 +8,7 @@ class Search extends React.Component {
 
     onTermSubmit = (term, searchSelected) => {
         // searches for countries in current region
-        if(searchSelected==false){
+        if(searchSelected===false){
             var searchBag = this.props.countryList;
             var message = "Please select a region firtst"; // NOT NECESSARY IF SEARCH IS NOT VISIBLE
         // searches for countries in current selection
@@ -17,7 +17,7 @@ class Search extends React.Component {
             var message = "Please choose add a selection of countries to search first." // NOT NECESSARY IF SEARCH IS NOT VISIBLE
         }
         // method proper
-        if(searchBag.length==0)
+        if(searchBag.length===0)
             alert(message);
         const filteredResults = searchBag.filter(
             (country) => {
@@ -28,7 +28,7 @@ class Search extends React.Component {
         this.props.updateCountryList(filteredResults);
         //console.log(this.props.searchCountryList);
 
-        if (filteredResults.length==0 && term.length!=0){
+        if (filteredResults.length===0 && term.length!==0){
             alert('Nothing found!');
         }
     }
@@ -40,9 +40,9 @@ class Search extends React.Component {
 
     onFormSubmit = e => {
         e.preventDefault();
-        if(this.props.searchCountryList)
+        if(this.props.searchCountryList.length!==0)
             return this.props.selectCountry(this.props.searchCountryList[0]);
-        if (this.props.countryList)
+        if (this.props.countryList!==0)
             return this.props.selectCountry(this.props.countryList[0]);
     }
 
