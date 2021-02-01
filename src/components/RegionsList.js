@@ -9,7 +9,7 @@ class RegionsList extends React.Component{
         if (this.state.region!==region){
             const response = await restcountries.get(`/region/${region}`);
             this.setState({ region: region, countryList: response.data});
-
+            
         }
     }
 
@@ -28,7 +28,7 @@ class RegionsList extends React.Component{
                     {this.state.region!=='' && 
                         (
                         <div className="">
-                            <CountriesList region={this.state.region} countryList={this.state.countryList}/>
+                            <CountriesList region={this.state.region} countryList={this.state.countryList} region={this.state.region}/>
                         </div>
                         ) 
                     }

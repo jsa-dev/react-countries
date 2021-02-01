@@ -19,7 +19,7 @@ class Search extends React.Component {
             }
         );
         
-        if(term.length==0){
+        if(term.length===0){
             // Make it go back to the original listing source when search box is empty
             this.props.buildSearchList([]);
         } else {

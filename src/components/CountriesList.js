@@ -7,6 +7,13 @@ import Country from './Country';
 class CountriesList extends React.Component{
     state={ country: null, searchList: [] };
 
+    // clear searchlist when region is changed
+    componentDidUpdate(prevProps) {
+        if ( prevProps.region!==this.props.region) {
+            this.setState({searchList: []});
+        }
+    }
+
     buildSearchList = (filteredResults) => {
         this.setState({searchList: filteredResults})
     }
@@ -32,22 +39,40 @@ class CountriesList extends React.Component{
         // Prioritize search results over listing countries from region
         if(this.state.searchList.length!==0){
             return this.state.searchList.map((country)=>{
-                return (
-                    <div>
-                        <a style={{display: 'inline-block'}} onClick={() => this.onCountrySelect(country)} className="item">{country.name}</a>
-                        <i class="plus icon" onClick={() => this.beforeAdd(country)}></i>
-                    </div>
-                )
+                // don't display add country button when country already selected
+                if (!this.props.selection.includes(country)){ 
+                    return (
+                        <div key={country.numericCode}>
+                            <a style={{display: 'inline-block'}} onClick={() => this.onCountrySelect(country)} className="item">{country.name}</a>
+                            <i className="plus icon" onClick={() => this.beforeAdd(country)}></i>
+                        </div>
+                    )
+                } else {
+                    return (
+                        <div key={country.numericCode}>
+                            <a style={{display: 'inline-block'}} onClick={() => this.onCountrySelect(country)} className="item">{country.name}</a>
+                        </div>
+                    )
+                }
             })
         }
         // Lists countries from selected region
         return this.props.countryList.map((country)=>{
-            return (
-                <div>
-                    <a style={{display: 'inline-block'}} onClick={() => this.onCountrySelect(country)} className="item">{country.name}</a>
-                    <i class="plus icon" onClick={() => this.beforeAdd(country)}></i>
-                </div>
-            )
+            // don't display add country button when country already selected
+            if (!this.props.selection.includes(country)){ 
+                return (
+                    <div key={country.numericCode}>
+                        <a style={{display: 'inline-block'}} onClick={() => this.onCountrySelect(country)} className="item">{country.name}</a>
+                        <i className="plus icon" onClick={() => this.beforeAdd(country)}></i>
+                    </div>
+                )
+            } else {
+                return (
+                    <div key={country.numericCode}>
+                        <a style={{display: 'inline-block'}} onClick={() => this.onCountrySelect(country)} className="item">{country.name}</a>
+                    </div>
+                )
+            }
         })
     }
     

@@ -23,9 +23,9 @@ class Selection extends React.Component {
         if (this.state.searchList.length!==0){
             return this.state.searchList.map((country)=>{
                 return (
-                    <div>
+                    <div key={country.numericCode}>
                         <a style={{display: 'inline-block'}} onClick={() => this.onCountrySelect(country)} className="item">{country.name}</a>
-                        {/* <i class="delete icon" onClick={() => this.props.removeCountry(country)}></i> */}
+                        {/* <i className="delete icon" onClick={() => this.props.removeCountry(country)}></i> */}
                     </div>
                 );
             }); 
@@ -34,9 +34,9 @@ class Selection extends React.Component {
         else {
             return this.props.selection.map((country)=>{
                 return (
-                    <div>
+                    <div key={country.numericCode}>
                         <a style={{display: 'inline-block'}} onClick={() => this.onCountrySelect(country)} className="item">{country.name}</a>
-                        <i class="delete icon" onClick={() => this.props.removeCountry(country)}></i>
+                        <i className="delete icon" onClick={() => this.props.removeCountry(country)}></i>
                     </div>
                 );
             });
