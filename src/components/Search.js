@@ -1,32 +1,31 @@
 import React from 'react';
-import SearchLabel from './SearchLabel';
 import {connect} from 'react-redux';
-import {updateCountryList, selectCountry} from '../actions';
 
 class Search extends React.Component {
-    state = { term: ''};
+    state = { term: '', currentSearch: []};
 
     onTermSubmit = (term, searchSelected) => {
         // searches for countries in current region
         if(searchSelected===false){
-            var searchBag = this.props.countryList;
-            var message = "Please select a region firtst"; // NOT NECESSARY IF SEARCH IS NOT VISIBLE
+            var searchBag = this.props.countries;
         // searches for countries in current selection
         } else {
             var searchBag = this.props.selection;
-            var message = "Please choose add a selection of countries to search first." // NOT NECESSARY IF SEARCH IS NOT VISIBLE
         }
-        // method proper
-        if(searchBag.length===0)
-            alert(message);
+        // common to both
         const filteredResults = searchBag.filter(
             (country) => {
                 return country.name.toLowerCase().includes(term.toLowerCase());
             }
         );
-
-        this.props.updateCountryList(filteredResults);
-        //console.log(this.props.searchCountryList);
+        
+        if(term.length==0){
+            // Make it go back to the original listing source when search box is empty
+            this.props.buildSearchList([]);
+        } else {
+            this.props.buildSearchList(filteredResults);
+            this.setState({currentSearch: filteredResults});
+        }
 
         if (filteredResults.length===0 && term.length!==0){
             alert('Nothing found!');
@@ -40,10 +39,8 @@ class Search extends React.Component {
 
     onFormSubmit = e => {
         e.preventDefault();
-        if(this.props.searchCountryList.length!==0)
-            return this.props.selectCountry(this.props.searchCountryList[0]);
-        if (this.props.countryList!==0)
-            return this.props.selectCountry(this.props.countryList[0]);
+        if (this.state.currentSearch.length!==0)
+            this.props.onCountrySelect(this.state.currentSearch[0]);
     }
 
     render(){
@@ -51,7 +48,7 @@ class Search extends React.Component {
             <div className="saerch-bar ui segment">
                 <form onSubmit={this.onFormSubmit} className="ui form">
                     <div className="field">
-                        <SearchLabel region={this.props.region} searchSelected={this.props.searchSelected}/>
+                        <label>Search countries: </label>
                         <input 
                             type="text" 
                             value={this.state.term}
@@ -68,13 +65,7 @@ class Search extends React.Component {
 const mapStateToProps = (state) => {
     return {
         selection: state.selection,
-        searchCountryList: state.searchCountryList,
-        countryList: state.countryList,
-        region: state.region
     };
 }
 
-export default connect(mapStateToProps, {
-    updateCountryList,
-    selectCountry
-})(Search);
+export default connect(mapStateToProps)(Search);
