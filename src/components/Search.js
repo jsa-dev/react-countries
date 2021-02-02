@@ -4,6 +4,13 @@ import {connect} from 'react-redux';
 class Search extends React.Component {
     state = { term: '', currentSearch: []};
 
+    // clear searchBox when region is changed
+    componentDidUpdate(prevProps) {
+        if ( prevProps.countries!==this.props.countries) {
+            this.setState({term: ''});
+        }
+    }
+
     onTermSubmit = (term, searchSelected) => {
         // searches for countries in current region
         if(searchSelected===false){

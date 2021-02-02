@@ -18,12 +18,6 @@ class CountriesList extends React.Component{
         this.setState({searchList: filteredResults})
     }
 
-    beforeAdd = (country) => {
-        if (!this.props.selection.includes(country)){
-            this.props.addCountry(country);
-        }
-    }
-
     onCountrySelect = (country) => {
         this.setState({country: country});
     }
@@ -40,11 +34,11 @@ class CountriesList extends React.Component{
         if(this.state.searchList.length!==0){
             return this.state.searchList.map((country)=>{
                 // don't display add country button when country already selected
-                if (!this.props.selection.includes(country)){ 
+                if( !(this.props.selection.map(country => country.name)).includes(country.name) ){
                     return (
                         <div key={country.numericCode}>
                             <a style={{display: 'inline-block'}} onClick={() => this.onCountrySelect(country)} className="item">{country.name}</a>
-                            <i className="plus icon" onClick={() => this.beforeAdd(country)}></i>
+                            <i className="plus icon" onClick={() => this.props.addCountry(country)}></i>
                         </div>
                     )
                 } else {
@@ -58,12 +52,11 @@ class CountriesList extends React.Component{
         }
         // Lists countries from selected region
         return this.props.countryList.map((country)=>{
-            // don't display add country button when country already selected
-            if (!this.props.selection.includes(country)){ 
+            if( !(this.props.selection.map(country => country.name)).includes(country.name) ){
                 return (
                     <div key={country.numericCode}>
                         <a style={{display: 'inline-block'}} onClick={() => this.onCountrySelect(country)} className="item">{country.name}</a>
-                        <i className="plus icon" onClick={() => this.beforeAdd(country)}></i>
+                        <i className="plus icon" onClick={() => this.props.addCountry(country)}></i>
                     </div>
                 )
             } else {
